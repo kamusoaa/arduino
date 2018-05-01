@@ -6,6 +6,7 @@ Author:	kozjava
 */
 
 
+#include "ProximitySensor.h"
 #include "Piezo.h"
 #include "SoundSensor.h"
 #include "GlobalState.h"
@@ -23,9 +24,14 @@ Piezo piezo = Piezo(piezoPins, freq, piezoTime);
 Thread motionThread1 = Thread();
 Thread motionThread2 = Thread();
 Thread soundThread = Thread();
+Thread proximityThread = Thread();
 MotionSensor motionSensor1("Motion1", 12);
 MotionSensor motionSensor2("Motion2", 11);
 SoundSensor soundSensor("Sound", A0);
+ProximitySensor proximity("Proximity", 7);
+
+
+int test = 0;
 
 void setup()
 {
@@ -49,6 +55,12 @@ void setup()
 	soundThread.onRun(doInSoundSensorThread);
 	soundThread.setInterval(0);
 
+	proximity.configure();
+	proximityThread.enabled = true;
+	proximityThread.onRun(doInProximitySensorThread);
+	proximityThread.setInterval(1000);
+
+
 	piezo.configure();
 
 }
@@ -62,9 +74,8 @@ void loop()
 		motionThread2.run();
 	if (soundThread.shouldRun())
 		soundThread.run();
-
-
-
+	if (proximityThread.shouldRun())
+		proximityThread.run();
 
 
 

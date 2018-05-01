@@ -90,6 +90,7 @@
     <ClInclude Include="GlobalState.h" />
     <ClInclude Include="Piezo.h" />
     <ClInclude Include="MoitionSensor.h" />
+    <ClInclude Include="ProximitySensor.h" />
     <ClInclude Include="SoundSensor.h" />
     <ClInclude Include="__vm\.SignalingV2.vsarduino.h" />
   </ItemGroup>
@@ -97,6 +98,7 @@
     <ClCompile Include="GlobalState.cpp" />
     <ClCompile Include="Piezo.cpp" />
     <ClCompile Include="MoitionSensor.cpp" />
+    <ClCompile Include="ProximitySensor.cpp" />
     <ClCompile Include="SoundSensor.cpp" />
   </ItemGroup>
   <PropertyGroup>

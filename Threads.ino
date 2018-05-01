@@ -13,3 +13,8 @@ void doInSoundSensorThread()
 {
 	soundSensor.doInThread(state);
 }
+
+void doInProximitySensorThread()
+{
+	proximity.doInThread(state);
+}
