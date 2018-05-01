@@ -6,6 +6,7 @@ Author:	kozjava
 */
 
 
+#include "HallSensor.h"
 #include "ProximitySensor.h"
 #include "Piezo.h"
 #include "SoundSensor.h"
@@ -25,10 +26,13 @@ Thread motionThread1 = Thread();
 Thread motionThread2 = Thread();
 Thread soundThread = Thread();
 Thread proximityThread = Thread();
+Thread hallThread = Thread();
+
 MotionSensor motionSensor1("Motion1", 12);
 MotionSensor motionSensor2("Motion2", 11);
 SoundSensor soundSensor("Sound", A0);
 ProximitySensor proximity("Proximity", 7);
+HallSensor hallSensor("HallSensor", A1);
 
 
 int test = 0;
@@ -60,6 +64,11 @@ void setup()
 	proximityThread.onRun(doInProximitySensorThread);
 	proximityThread.setInterval(1000);
 
+	hallSensor.configure();
+	hallThread.enabled = true;
+	hallThread.onRun(doInHallThread);
+	hallThread.setInterval(0);
+
 
 	piezo.configure();
 
@@ -76,12 +85,12 @@ void loop()
 		soundThread.run();
 	if (proximityThread.shouldRun())
 		proximityThread.run();
-
+	if (hallThread.shouldRun())
+		hallThread.run();
 
 
 	if (state.getCriticalState())
 		piezo.loudlyBeeping();
-
 
 }
 

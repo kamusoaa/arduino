@@ -32,7 +32,7 @@ void SoundSensor::doInThread(GlobalState& globalState)
 		if (_soundValue > 15)
 		{
 			globalState.setGlobalState(1);
-			_state =-15;
+			_state = _state -15;
 
 			/*
 				send to the server

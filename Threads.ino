@@ -18,3 +18,7 @@ void doInProximitySensorThread()
 {
 	proximity.doInThread(state);
 }
+void doInHallThread()
+{
+	hallSensor.doInThread(state);
+}
