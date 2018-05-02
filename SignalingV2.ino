@@ -45,17 +45,17 @@ void setup()
 	Serial1.begin(2400);
 
 	motionSensor1.configure();
-	motionThread1.enabled = true;
+	motionThread1.enabled = false;
 	motionThread1.onRun(doInMotionSensorThread1);
 	motionThread1.setInterval(1000);
 
 	motionSensor2.configure();
-	motionThread2.enabled = true;
+	motionThread2.enabled = false;
 	motionThread2.onRun(doInMotionSensorThread2);
 	motionThread2.setInterval(1000);
 
 	soundSensor.configure();
-	soundThread.enabled = true;
+	soundThread.enabled = false;
 	soundThread.onRun(doInSoundSensorThread);
 	soundThread.setInterval(0);
 
@@ -65,14 +65,25 @@ void setup()
 	proximityThread.setInterval(1000);
 
 	hallSensor.configure();
-	hallThread.enabled = true;
+	hallThread.enabled = false;
 	hallThread.onRun(doInHallThread);
 	hallThread.setInterval(0);
 
 	piezo.configure();
 
 	modem.config();
-	//modem.cATcheck(); work!
+	//modem.AT();  //work!
+	//modem.moduleID(); //work!
+	//modem.revision(); // work!
+	//modem.imei(); //work!
+	//modem.celluarOperator(); //work!
+	//modem.moduleStatus(); // work!
+	//modem.signalStrength(); //work!
+	//modem.currentTime(); //work!
+	//modem.voltage(); //work!
+	Serial.println(modem.ADCvalue());
+
+
 
 
 

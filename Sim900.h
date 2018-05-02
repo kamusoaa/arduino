@@ -19,5 +19,14 @@ private:
 public:
 	GSMModem();
 	void config();
-	String cATcheck();
+	String AT();
+	String moduleID();
+	String revision();
+	String imei();
+	String celluarOperator();
+	String moduleStatus();
+	String signalStrength();
+	String currentTime();
+	String voltage();
+	String ADCvalue();
 };
