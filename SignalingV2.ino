@@ -79,9 +79,14 @@ void setup()
 	//modem.celluarOperator(); //work!
 	//modem.moduleStatus(); // work!
 	//modem.signalStrength(); //work!
-	//modem.currentTime(); //work!
+	//modem.getCurrentTime(); //work!
 	//modem.voltage(); //work!
-	Serial.println(modem.ADCvalue());
+	//modem.ADCvalue(); //work!
+	//modem.setTime("18/05/02,21:22:30+03"); //work!
+	//modem.callTo("375291212184"); //work!
+	//modem.getBalance(); //work!
+	modem.getTraffic();
+
 
 
 

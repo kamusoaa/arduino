@@ -23,10 +23,17 @@ public:
 	String moduleID();
 	String revision();
 	String imei();
+
 	String celluarOperator();
 	String moduleStatus();
 	String signalStrength();
-	String currentTime();
+	String getCurrentTime();
+	String setTime(char* time);
 	String voltage();
 	String ADCvalue();
+
+	String callTo(char* cellNumber);
+	String getBalance();
+	String getTraffic();
+	
 };

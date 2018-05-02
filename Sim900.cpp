@@ -187,7 +187,7 @@ String GSMModem::signalStrength()
 	return response;
 }
 
-String GSMModem::currentTime()
+String GSMModem::getCurrentTime()
 {
 	String response;
 
@@ -204,6 +204,30 @@ String GSMModem::currentTime()
 		}
 	}
 	response = response.substring(20, 40);
+	response.trim();
+	return response;
+}
+
+String GSMModem::setTime(char* param)
+{
+	String response;
+
+	Serial1.print("AT+CCLK=");
+	Serial1.print("\"");
+	Serial1.print(param);
+	Serial1.print("\"");
+	Serial1.println();
+	unsigned long startTime = millis();
+
+	while (millis() - startTime < 1000)
+	{
+		if (Serial1.available())
+		{
+			char input = Serial1.read();
+			response += input;
+		}
+	}
+	response = response.substring(31, 36);
 	response.trim();
 	return response;
 }
@@ -247,11 +271,83 @@ String GSMModem::ADCvalue()
 	}
 	response = response.substring(19, 22);
 	response.trim();
+	return response;
+}
+
+String GSMModem::callTo(char * cellNumber)
+{
+	String response;
+
+	Serial1.print("ATD+");
+	Serial1.print(cellNumber);
+	Serial1.print(";");
+	Serial1.println();
+	unsigned long startTime = millis();
+
+	while (millis() - startTime < 1000)
+	{
+		if (Serial1.available())
+		{
+			char input = Serial1.read();
+			response += input;
+		}
+	}
+	response = response.substring(19, 23);
+	response.trim();
+	return response;
+}
+
+String GSMModem::getBalance()
+{
+	String response;
+
+	Serial1.print("AT+CUSD=1,");
+	Serial1.print("\"");
+	Serial1.print("*100#");
+	Serial1.print("\"");
+	Serial1.println();
+	unsigned long startTime = millis();
+
+	while (millis() - startTime < 8000)
+	{
+		if (Serial1.available())
+		{
+			char input = Serial1.read();
+			response += input;
+		}
+	}
+	response = response.substring(37, 85);
+	response.trim();
+
+	return response;
+}
+
+String GSMModem::getTraffic()
+{
+	String response;
+
+	Serial1.print("AT+CUSD=1,");
+	Serial1.print("\"");
+	Serial1.print("*105*2#");
+	Serial1.print("\"");
+	Serial1.println();
+	unsigned long startTime = millis();
+
+	while (millis() - startTime < 8000)
+	{
+		if (Serial1.available())
+		{
+			char input = Serial1.read();
+			response += input;
+		}
+	}
+	Serial.println(response);
+	response = response.substring(39, 65);
 
 
 	/*Serial.println(response.length());
 	Serial.println(response);
-	response = response.substring(19, 22);
+	response = response.substring(39,65);
 	response.trim();
 	Serial.println("====");
 	Serial.println(response);
