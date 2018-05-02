@@ -6,6 +6,7 @@ Author:	kozjava
 */
 
 
+#include "Sim900.h"
 #include "HallSensor.h"
 #include "ProximitySensor.h"
 #include "Piezo.h"
@@ -14,7 +15,7 @@ Author:	kozjava
 #include "MoitionSensor.h"
 #include<Thread.h>
 
-uint8_t piezoPins[2] = { 4,5 };
+uint8_t piezoPins[2] = { 4,3};
 int freq[2] = { 700,900 };
 int piezoTime = 1000;
 
@@ -27,6 +28,7 @@ Thread motionThread2 = Thread();
 Thread soundThread = Thread();
 Thread proximityThread = Thread();
 Thread hallThread = Thread();
+GSMModem modem;
 
 MotionSensor motionSensor1("Motion1", 12);
 MotionSensor motionSensor2("Motion2", 11);
@@ -34,8 +36,6 @@ SoundSensor soundSensor("Sound", A0);
 ProximitySensor proximity("Proximity", 7);
 HallSensor hallSensor("HallSensor", A1);
 
-
-int test = 0;
 
 void setup()
 {
@@ -69,9 +69,15 @@ void setup()
 	hallThread.onRun(doInHallThread);
 	hallThread.setInterval(0);
 
-
 	piezo.configure();
 
+	modem.config();
+	//modem.cATcheck(); work!
+
+
+
+
+	
 }
 
 void loop()

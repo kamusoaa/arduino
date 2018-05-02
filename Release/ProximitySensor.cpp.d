@@ -1,6 +1,6 @@
-C:\Users\kozjava\AppData\Local\Temp\VMBuilds\SignalingV2\mega_atmega2560\Release\MoitionSensor.cpp.o: \
- C:\Users\kozjava\AppData\Local\Temp\VMBuilds\SignalingV2\mega_atmega2560\Release\MoitionSensor.cpp \
- C:\Users\kozjava\AppData\Local\Temp\VMBuilds\SignalingV2\mega_atmega2560\Release\MoitionSensor.h \
+C:\Users\kozjava\AppData\Local\Temp\VMBuilds\SignalingV2\mega_atmega2560\Release\ProximitySensor.cpp.o: \
+ C:\Users\kozjava\AppData\Local\Temp\VMBuilds\SignalingV2\mega_atmega2560\Release\ProximitySensor.cpp \
+ C:\Users\kozjava\AppData\Local\Temp\VMBuilds\SignalingV2\mega_atmega2560\Release\ProximitySensor.h \
  C:\Users\kozjava\AppData\Local\Temp\VMBuilds\SignalingV2\mega_atmega2560\Release\GlobalState.h \
  C:\Program\ Files\ (x86)\Arduino\hardware\arduino\avr\cores\arduino/arduino.h \
  C:\Program\ Files\ (x86)\Arduino\hardware\arduino\avr\cores\arduino/binary.h \

@@ -40,6 +40,9 @@
     <ClInclude Include="HallSensor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Sim900.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MoitionSensor.cpp">
@@ -58,6 +61,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="HallSensor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Sim900.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
