@@ -35,5 +35,6 @@ public:
 	String callTo(char* cellNumber);
 	String getBalance();
 	String getTraffic();
+	bool sendSMS(char* number, char* text);
 	
 };

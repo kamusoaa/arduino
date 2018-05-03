@@ -18,7 +18,9 @@ Author:	kozjava
 uint8_t piezoPins[2] = { 4,3};
 int freq[2] = { 700,900 };
 int piezoTime = 1000;
-
+char message[160];
+char phone[16];
+char datetime[24];
 
 GlobalState state = GlobalState();
 Piezo piezo = Piezo(piezoPins, freq, piezoTime);
@@ -28,7 +30,10 @@ Thread motionThread2 = Thread();
 Thread soundThread = Thread();
 Thread proximityThread = Thread();
 Thread hallThread = Thread();
+Thread smsThread = Thread();
+
 GSMModem modem;
+GPRS _gprs(Serial1);
 
 MotionSensor motionSensor1("Motion1", 12);
 MotionSensor motionSensor2("Motion2", 11);
@@ -70,29 +75,7 @@ void setup()
 	hallThread.setInterval(0);
 
 	piezo.configure();
-
 	modem.config();
-	//modem.AT();  //work!
-	//modem.moduleID(); //work!
-	//modem.revision(); // work!
-	//modem.imei(); //work!
-	//modem.celluarOperator(); //work!
-	//modem.moduleStatus(); // work!
-	//modem.signalStrength(); //work!
-	//modem.getCurrentTime(); //work!
-	//modem.voltage(); //work!
-	//modem.ADCvalue(); //work!
-	//modem.setTime("18/05/02,21:22:30+03"); //work!
-	//modem.callTo("375291212184"); //work!
-	//modem.getBalance(); //work!
-	modem.getTraffic();
-
-
-
-
-
-
-
 	
 }
 
@@ -110,10 +93,9 @@ void loop()
 	if (hallThread.shouldRun())
 		hallThread.run();
 
-
 	if (state.getCriticalState())
 		piezo.loudlyBeeping();
-
+	
 }
 
 

@@ -341,17 +341,14 @@ String GSMModem::getTraffic()
 			response += input;
 		}
 	}
-	Serial.println(response);
+	
 	response = response.substring(39, 65);
-
-
-	/*Serial.println(response.length());
-	Serial.println(response);
-	response = response.substring(39,65);
 	response.trim();
-	Serial.println("====");
-	Serial.println(response);
-	Serial.println(response.length());
-	Serial.println(response.toInt());*/
 	return response;
+}
+
+bool GSMModem::sendSMS(char * number, char * text)
+{
+	GPRS gprs(Serial1);
+	return gprs.sendSMS(number, text);
 }
