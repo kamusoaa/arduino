@@ -352,3 +352,89 @@ bool GSMModem::sendSMS(char * number, char * text)
 	GPRS gprs(Serial1);
 	return gprs.sendSMS(number, text);
 }
+
+void GSMModem::setConnection()
+{
+
+	Serial.println("Set SAPBR");
+	Serial1.println("AT+SAPBR=3,1,\"CONTYPE\",\"GPRS\"");
+	delay(2000);
+	Serial.println("Set APN");
+	Serial1.println("AT+SAPBR=3,1,\"APN\",\"internet.life.com.by\"");
+	delay(2000);
+	Serial.println("Check ip");
+	Serial1.println("AT+SAPBR=1,1");
+	delay(2000);
+	Serial.println("Init HTTP");
+	Serial1.println("AT+HTTPINIT");
+	delay(2000);
+	while (Serial1.available()) Serial1.read();
+}
+
+void GSMModem::sendHttpRequest(char* alarm,int motion1, int motion2, int hall, int proximity, int sound)
+{
+	Serial.println("meh");
+	bool start = false;
+
+	String jsonResponse;
+	Serial1.print("AT+HTTPPARA=\"URL\",");
+	Serial1.print("\"");
+	Serial1.print("http://gsmserver.herokuapp.com/simple?");
+	Serial1.print("motion1=");
+	Serial1.print(motion1);
+	Serial1.print("&");
+	Serial1.print("motion2=");
+	Serial1.print(motion2);
+	Serial1.print("&");
+	Serial1.print("hall=");
+	Serial1.print(hall);
+	Serial1.print("&");
+	Serial1.print("proximity=");
+	Serial1.print(proximity);
+	Serial1.print("&");
+	Serial1.print("sound=");
+	Serial1.print(sound);
+	Serial1.print("\"");
+	Serial1.println();
+	delay(1000);
+	Serial1.println("AT+HTTPACTION=0");
+	delay(3000);
+
+
+}
+
+String GSMModem::readHttpRequest()
+{
+
+	Serial.println("meh2");
+	bool start = false;
+
+	String jsonResponse;
+	while (Serial1.available()) Serial1.read();
+	Serial1.println("AT+HTTPREAD=0,170");
+	delay(3000);
+		
+	while (Serial1.available())
+	{
+		char in = Serial1.read();
+		Serial.write(in);
+		if (in == '{')
+		{
+			start = true;
+		}
+		if (start)
+		{
+			jsonResponse += (in);
+		}
+		if (in == '}')
+		{
+			break;
+		}
+	}
+
+	Serial.println(jsonResponse.length());
+	Serial.println(jsonResponse);
+	Serial.println("===");
+
+	return jsonResponse;
+}

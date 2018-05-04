@@ -14,6 +14,7 @@ Author:	kozjava
 #include "GlobalState.h"
 #include "MoitionSensor.h"
 #include<Thread.h>
+#include<ThreadController.h>
 
 uint8_t piezoPins[2] = { 4,3};
 int freq[2] = { 700,900 };
@@ -32,6 +33,8 @@ Thread proximityThread = Thread();
 Thread hallThread = Thread();
 Thread postData = Thread();
 
+ThreadController controller = ThreadController();
+
 GSMModem modem;
 GPRS _gprs(Serial1);
 
@@ -48,7 +51,7 @@ void setup()
   /* add setup code here */
 
 	Serial.begin(9600);
-	Serial1.begin(2400);
+	Serial1.begin(19200);
 
 	motionSensor1.configure();
 	motionThread1.enabled = false;
@@ -71,17 +74,23 @@ void setup()
 	proximityThread.setInterval(1000);
 
 	hallSensor.configure();
-	hallThread.enabled = false;
+	hallThread.enabled = true;
 	hallThread.onRun(doInHallThread);
 	hallThread.setInterval(0);
 
 	postData.enabled = true;
 	postData.onRun(sendData);
-	postData.setInterval(20000);
+	postData.setInterval(10000);
+
+	controller.add(&motionThread1);
+	controller.add(&motionThread2);
+	controller.add(&soundThread);
+	controller.add(&proximityThread);
+	controller.add(&hallThread);
 
 	piezo.configure();
 	modem.config();
-	setConnection();
+	modem.setConnection();
 	
 }
 
@@ -89,46 +98,16 @@ void loop()
 {
   /* add main program code here */
 
+	controller.run();
+
 	if (state.getCriticalState())
 		piezo.loudlyBeeping();
-
-
-	if (motionThread1.shouldRun())
-		motionThread1.run();
-	if (motionThread2.shouldRun())
-		motionThread2.run();
-	if (soundThread.shouldRun())
-		soundThread.run();
-	if (proximityThread.shouldRun())
-		proximityThread.run();
-	if (hallThread.shouldRun())
-		hallThread.run();
 
 	if (postData.shouldRun())
 		postData.run();
 
 }
 
-
-void setConnection()
-{
-
-	Serial.println("Set SAPBR");
-	Serial1.println("AT+SAPBR=3,1,\"CONTYPE\",\"GPRS\"");
-	delay(2000);
-	Serial.println("Set APN");
-	Serial1.println("AT+SAPBR=3,1,\"APN\",\"internet.life.com.by\"");
-	delay(2000);
-	Serial.println("Check ip");
-	Serial1.println("AT+SAPBR=1,1");
-	delay(2000);
-	Serial.println("Init HTTP");
-	Serial1.println("AT+HTTPINIT");
-	delay(2000);
-	Serial.println("Setting HTTPPara");
-	Serial1.println("AT+HTTPPARA=\"URL\",\"http://gsmserver.herokuapp.com/simple?text=hello\"");
-	delay(2000);
-}
 
 
 

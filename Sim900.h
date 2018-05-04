@@ -3,6 +3,7 @@
 #ifndef _SIM900_h
 #define _SIM900_h
 #include "GPRS_Shield_Arduino.h"
+#include "ArduinoJson.h"
 #if defined(ARDUINO) && ARDUINO >= 100
 	#include "arduino.h"
 #else
@@ -37,13 +38,9 @@ public:
 	String getTraffic();
 	bool sendSMS(char* number, char* text);
 
-	bool setSAPBRConnection(char* type);
-	bool setAPN(char* apn);
-	String getIP();
-	bool initHTTP();
-	bool setAddress(char* url);
-
-	bool send();
+	void setConnection();
+	void sendHttpRequest(char*, int, int, int, int, int);
+	String readHttpRequest();
 
 	
 };

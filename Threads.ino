@@ -25,8 +25,8 @@ void doInHallThread()
 
 void sendData()
 {
-	while (Serial1.available()) Serial1.read();
-	String response;
+
+	/*String response;
 	Serial1.println("AT+HTTPACTION=1");
 	unsigned long startTime = millis();
 	while (millis() - startTime < 8000)
@@ -38,5 +38,11 @@ void sendData()
 		}
 	}
 	Serial.println("===");
-	Serial.println(response);
+	Serial.println(response);*/
+
+
+	modem.sendHttpRequest("off", motionSensor1.getValue(), motionSensor2.getValue(),
+		hallSensor.getValue(), proximity.getValue(), soundSensor.getValue());
+	modem.readHttpRequest();
+
 }
