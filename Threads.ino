@@ -22,3 +22,21 @@ void doInHallThread()
 {
 	hallSensor.doInThread(state);
 }
+
+void sendData()
+{
+	while (Serial1.available()) Serial1.read();
+	String response;
+	Serial1.println("AT+HTTPACTION=1");
+	unsigned long startTime = millis();
+	while (millis() - startTime < 8000)
+	{
+		if (Serial1.available())
+		{
+			char input = Serial1.read();
+			response += input;
+		}
+	}
+	Serial.println("===");
+	Serial.println(response);
+}

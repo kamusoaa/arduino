@@ -30,7 +30,7 @@ Thread motionThread2 = Thread();
 Thread soundThread = Thread();
 Thread proximityThread = Thread();
 Thread hallThread = Thread();
-Thread smsThread = Thread();
+Thread postData = Thread();
 
 GSMModem modem;
 GPRS _gprs(Serial1);
@@ -40,6 +40,7 @@ MotionSensor motionSensor2("Motion2", 11);
 SoundSensor soundSensor("Sound", A0);
 ProximitySensor proximity("Proximity", 7);
 HallSensor hallSensor("HallSensor", A1);
+
 
 
 void setup()
@@ -74,14 +75,24 @@ void setup()
 	hallThread.onRun(doInHallThread);
 	hallThread.setInterval(0);
 
+	postData.enabled = true;
+	postData.onRun(sendData);
+	postData.setInterval(20000);
+
 	piezo.configure();
 	modem.config();
+	setConnection();
 	
 }
 
 void loop()
 {
   /* add main program code here */
+
+	if (state.getCriticalState())
+		piezo.loudlyBeeping();
+
+
 	if (motionThread1.shouldRun())
 		motionThread1.run();
 	if (motionThread2.shouldRun())
@@ -93,9 +104,30 @@ void loop()
 	if (hallThread.shouldRun())
 		hallThread.run();
 
-	if (state.getCriticalState())
-		piezo.loudlyBeeping();
-	
+	if (postData.shouldRun())
+		postData.run();
+
+}
+
+
+void setConnection()
+{
+
+	Serial.println("Set SAPBR");
+	Serial1.println("AT+SAPBR=3,1,\"CONTYPE\",\"GPRS\"");
+	delay(2000);
+	Serial.println("Set APN");
+	Serial1.println("AT+SAPBR=3,1,\"APN\",\"internet.life.com.by\"");
+	delay(2000);
+	Serial.println("Check ip");
+	Serial1.println("AT+SAPBR=1,1");
+	delay(2000);
+	Serial.println("Init HTTP");
+	Serial1.println("AT+HTTPINIT");
+	delay(2000);
+	Serial.println("Setting HTTPPara");
+	Serial1.println("AT+HTTPPARA=\"URL\",\"http://gsmserver.herokuapp.com/simple?text=hello\"");
+	delay(2000);
 }
 
 

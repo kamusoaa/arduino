@@ -36,5 +36,14 @@ public:
 	String getBalance();
 	String getTraffic();
 	bool sendSMS(char* number, char* text);
+
+	bool setSAPBRConnection(char* type);
+	bool setAPN(char* apn);
+	String getIP();
+	bool initHTTP();
+	bool setAddress(char* url);
+
+	bool send();
+
 	
 };
