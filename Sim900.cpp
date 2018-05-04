@@ -412,12 +412,11 @@ String GSMModem::readHttpRequest()
 	String jsonResponse;
 	while (Serial1.available()) Serial1.read();
 	Serial1.println("AT+HTTPREAD=0,170");
-	delay(3000);
+	delay(2000);
 		
 	while (Serial1.available())
 	{
 		char in = Serial1.read();
-		Serial.write(in);
 		if (in == '{')
 		{
 			start = true;

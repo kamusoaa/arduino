@@ -80,7 +80,7 @@ void setup()
 
 	postData.enabled = true;
 	postData.onRun(sendData);
-	postData.setInterval(10000);
+	postData.setInterval(20000);
 
 	controller.add(&motionThread1);
 	controller.add(&motionThread2);
