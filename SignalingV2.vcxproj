@@ -79,6 +79,9 @@
     <ProjectCapability Include="VisualMicro" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="CommandController.ino">
+      <FileType>CppCode</FileType>
+    </None>
     <None Include="SignalingV2.ino">
       <FileType>CppCode</FileType>
     </None>

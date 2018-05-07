@@ -78,6 +78,7 @@ typedef void *__builtin_va_list;
 #define pgm_read_ptr(address_short)   short()
 
 #include "SignalingV2.ino"
+#include "CommandController.ino"
 #include "Threads.ino"
 #endif
 #endif

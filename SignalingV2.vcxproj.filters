@@ -17,6 +17,7 @@
   <ItemGroup>
     <None Include="SignalingV2.ino" />
     <None Include="Threads.ino" />
+    <None Include="CommandController.ino" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__vm\.SignalingV2.vsarduino.h">

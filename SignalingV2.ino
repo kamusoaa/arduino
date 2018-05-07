@@ -33,11 +33,12 @@ Thread soundThread = Thread();
 Thread proximityThread = Thread();
 Thread hallThread = Thread();
 Thread postData = Thread();
-
+Thread commandParser = Thread();
 ThreadController controller = ThreadController();
 
 GSMModem modem;
 GPRS _gprs(Serial1);
+StaticJsonBuffer<200> buffer;
 
 MotionSensor motionSensor1("Motion1", 12);
 MotionSensor motionSensor2("Motion2", 11);
@@ -53,6 +54,9 @@ void setup()
 
 	Serial.begin(9600);
 	Serial1.begin(19200);
+
+	piezo.configure();
+	piezo.quietBeep();
 
 	motionSensor1.configure();
 	motionThread1.enabled = true;
@@ -86,7 +90,11 @@ void setup()
 
 	postData.enabled = true;
 	postData.onRun(sendData);
-	postData.setInterval(60000);
+	postData.setInterval(30000);
+
+	commandParser.enabled = true;
+	commandParser.onRun(parseCommand);
+	commandParser.setInterval(12000);
 
 
 	controller.add(&motionThread1);
@@ -100,8 +108,7 @@ void setup()
 	modem.setConnection();
 	moduleIMEI = modem.imei();
 
-	piezo.configure();
-	piezo.quietBeep();
+
 	
 }
 
@@ -110,22 +117,15 @@ void loop()
   /* add main program code here */
 
 	if (!state.isAlarm())
-	{
-		Serial.println("Work!");
 		controller.run();
-	}
-	else
-	{
-		Serial.println("no Work!");
-	}
-
-		
 
 	if (state.getCriticalState())
 		piezo.loudlyBeeping();
 
 	if (postData.shouldRun())
 		postData.run();
+	if (commandParser.shouldRun())
+		commandParser.run();
 
 }
 

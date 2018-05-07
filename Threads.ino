@@ -28,6 +28,13 @@ void sendData()
 	String data;
 	data += "imei=";
 	data += moduleIMEI;
+	data += "&alarm=";
+	data += state.isAlarm();
+	if (state.isAlarm())
+	{
+		data += "&sensor=";
+		data += state.getName();
+	}
 	data += "&motion1=";
 	data += motionSensor1.getValue();
 	data += "&motion2=";
@@ -39,8 +46,8 @@ void sendData()
 	data += "&sound=";
 	data += soundSensor.getValue();
 
-
 	modem.sendHttpRequest(data);
-	modem.readHttpRequest();
+	_JSON = modem.readHttpRequest();
+	_run = true;
 
 }
