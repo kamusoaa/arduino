@@ -22,6 +22,7 @@ int piezoTime = 1000;
 char message[160];
 char phone[16];
 char datetime[24];
+String moduleIMEI;
 
 GlobalState state = GlobalState();
 Piezo piezo = Piezo(piezoPins, freq, piezoTime);
@@ -53,18 +54,20 @@ void setup()
 	Serial.begin(9600);
 	Serial1.begin(19200);
 
+	piezo.configure();
+
 	motionSensor1.configure();
-	motionThread1.enabled = false;
+	motionThread1.enabled = true;
 	motionThread1.onRun(doInMotionSensorThread1);
 	motionThread1.setInterval(1000);
 
 	motionSensor2.configure();
-	motionThread2.enabled = false;
+	motionThread2.enabled = true;
 	motionThread2.onRun(doInMotionSensorThread2);
 	motionThread2.setInterval(1000);
 
 	soundSensor.configure();
-	soundThread.enabled = false;
+	soundThread.enabled = true;
 	soundThread.onRun(doInSoundSensorThread);
 	soundThread.setInterval(0);
 
@@ -80,7 +83,7 @@ void setup()
 
 	postData.enabled = true;
 	postData.onRun(sendData);
-	postData.setInterval(20000);
+	postData.setInterval(60000);
 
 	controller.add(&motionThread1);
 	controller.add(&motionThread2);
@@ -88,9 +91,11 @@ void setup()
 	controller.add(&proximityThread);
 	controller.add(&hallThread);
 
-	piezo.configure();
 	modem.config();
 	modem.setConnection();
+	moduleIMEI = modem.imei();
+
+	piezo.quietBeep();
 	
 }
 
@@ -105,6 +110,8 @@ void loop()
 
 	if (postData.shouldRun())
 		postData.run();
+
+	Serial.println(controller.shouldRun());
 
 }
 

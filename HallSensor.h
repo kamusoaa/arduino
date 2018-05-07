@@ -3,6 +3,7 @@
 #ifndef _HALLSENSOR_h
 #define _HALLSENSOR_h
 #include "GlobalState.h"
+#include "ThreadController.h"
 #if defined(ARDUINO) && ARDUINO >= 100
 	#include "arduino.h"
 #else
@@ -23,6 +24,6 @@ private :
 public:
 	HallSensor(String name, uint8_t pin);
 	int getValue();
-	void doInThread(GlobalState& global);
+	void doInThread(GlobalState& global, ThreadController controller);
 	void configure();
 };

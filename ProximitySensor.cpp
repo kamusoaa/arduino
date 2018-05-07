@@ -15,7 +15,7 @@ int ProximitySensor::getValue()
 	return _value;
 }
 
-void ProximitySensor::doInThread(GlobalState& state)
+void ProximitySensor::doInThread(GlobalState& state, ThreadController controller)
 {
 	_value = digitalRead(_pin);
 	if (_value == LOW)
@@ -23,11 +23,17 @@ void ProximitySensor::doInThread(GlobalState& state)
 		_state++;
 		if (_state > 2)
 		{
-			state.setGlobalState(1);
+			state.setGlobalState(2);
+			state.setAlarm(true);
+			state.setName(ProximitySensor::_name);
+
+
 			Serial.print(_name);
 			Serial.print("  ");
 			Serial.println(_value);
 			_state--;
+
+			controller.enabled = false;
 		}
 	}
 }

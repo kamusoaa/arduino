@@ -44,7 +44,7 @@ bool MotionSensor::getAlarm()
 	return _alarm;
 }
 
-void MotionSensor::doInThread(GlobalState& globalState)
+void MotionSensor::doInThread(GlobalState& globalState, ThreadController controller)
 {
 	_value = digitalRead(_pin);
 	if (_value == HIGH)
@@ -52,14 +52,16 @@ void MotionSensor::doInThread(GlobalState& globalState)
 		_state++;
 		if (_state > 2)
 		{
-			globalState.setGlobalState(1);
-			/*
-				send to the server
-			*/
+			globalState.setGlobalState(2);
+			globalState.setAlarm(true);
+			globalState.setName(MotionSensor::getName());
+
 			Serial.print(_name);
 			Serial.print("  ");
 			Serial.println(_value);
 			_state--;
+
+			controller.enabled = false;
 		}
 	}
 }

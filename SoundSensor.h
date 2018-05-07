@@ -3,7 +3,7 @@
 #ifndef _SOUNDSENSOR_h
 #define _SOUNDSENSOR_h
 #include "GlobalState.h"
-
+#include "ThreadController.h"
 #if defined(ARDUINO) && ARDUINO >= 100
 	#include "arduino.h"
 #else
@@ -26,6 +26,6 @@ public:
 	SoundSensor(String name, uint8_t pin);
 	int getValue();
 	void configure();
-	void doInThread(GlobalState& globalState);
+	void doInThread(GlobalState& globalState, ThreadController controller);
 
 };

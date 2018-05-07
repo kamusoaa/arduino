@@ -1,32 +1,46 @@
 
 void doInMotionSensorThread1()
 {
-	motionSensor1.doInThread(state);
+	motionSensor1.doInThread(state, controller);
 }
 
 void doInMotionSensorThread2()
 {
-	motionSensor2.doInThread(state);
+	motionSensor2.doInThread(state, controller);
 }
 
 void doInSoundSensorThread()
 {
-	soundSensor.doInThread(state);
+	soundSensor.doInThread(state, controller);
 }
 
 void doInProximitySensorThread()
 {
-	proximity.doInThread(state);
+	proximity.doInThread(state, controller);
 }
 void doInHallThread()
 {
-	hallSensor.doInThread(state);
+	hallSensor.doInThread(state, controller);
 }
 
 void sendData()
 {
-	modem.sendHttpRequest("off", motionSensor1.getValue(), motionSensor2.getValue(),
-		hallSensor.getValue(), proximity.getValue(), soundSensor.getValue());
+	String data;
+	data += "imei=";
+	data += moduleIMEI;
+	data += "&motion1=";
+	data += motionSensor1.getValue();
+	data += "&motion2=";
+	data += motionSensor2.getValue();
+	data += "&hall=";
+	data += hallSensor.getValue();
+	data += "&prox=";
+	data += proximity.getValue();
+	data += "&sound=";
+	data += soundSensor.getValue();
+
+
+	modem.sendHttpRequest(data);
 	modem.readHttpRequest();
 
 }

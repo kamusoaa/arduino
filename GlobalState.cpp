@@ -41,3 +41,23 @@ uint8_t GlobalState::getGlobalValue()
 {
 	return _globalState;
 }
+
+void GlobalState::setAlarm(bool value)
+{
+	_alarm = value;
+}
+
+bool GlobalState::isAlarm()
+{
+	return _alarm;
+}
+
+void GlobalState::setName(String name)
+{
+	_sensor = name;
+}
+
+String GlobalState::getName()
+{
+	return _sensor;
+}

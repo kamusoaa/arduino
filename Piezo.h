@@ -26,5 +26,5 @@ public:
 	Piezo(uint8_t pin[], int freq[], int time);
 	void configure();
 	void loudlyBeeping();
-	void waitCommand();
+	void quietBeep();
 };

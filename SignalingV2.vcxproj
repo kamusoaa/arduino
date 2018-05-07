@@ -89,6 +89,9 @@
   <ItemGroup>
     <ClInclude Include="GlobalState.h" />
     <ClInclude Include="HallSensor.h" />
+    <ClInclude Include="MotionSensor.h">
+      <FileType>CppCode</FileType>
+    </ClInclude>
     <ClInclude Include="Piezo.h" />
     <ClInclude Include="MoitionSensor.h" />
     <ClInclude Include="ProximitySensor.h" />
@@ -98,6 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GlobalState.cpp" />
+    <ClCompile Include="GSM.cpp" />
     <ClCompile Include="HallSensor.cpp" />
     <ClCompile Include="Piezo.cpp" />
     <ClCompile Include="MoitionSensor.cpp" />

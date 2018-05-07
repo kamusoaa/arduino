@@ -3,7 +3,7 @@
 #define _MOITIONSENSOR_h
 
 #include"GlobalState.h"
-
+#include "ThreadController.h"
 #if defined(ARDUINO) && ARDUINO >= 100
 	#include "arduino.h"
 #else
@@ -32,6 +32,6 @@ public:
 	int getValue();
 	void setAlarm(bool value);
 	bool getAlarm();
-	void doInThread(GlobalState& globalState);
+	void doInThread(GlobalState& globalState, ThreadController controller);
 
 };

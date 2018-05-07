@@ -37,7 +37,7 @@ void Piezo::loudlyBeeping()
 	}
 }
 
-void Piezo::waitCommand()
+void Piezo::quietBeep()
 {
-
+	tone(_pin[0], _frequency[0], 200);
 }

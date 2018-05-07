@@ -22,7 +22,7 @@ void SoundSensor::configure()
 	pinMode(_pin, INPUT);
 }
 
-void SoundSensor::doInThread(GlobalState& globalState)
+void SoundSensor::doInThread(GlobalState& globalState, ThreadController controller)
 {
 	_soundValue = analogRead(_pin);
 	if (_soundValue < 700)
@@ -31,12 +31,14 @@ void SoundSensor::doInThread(GlobalState& globalState)
 		_state++;
 		if (_soundValue > 15)
 		{
-			globalState.setGlobalState(1);
-			_state = _state -15;
+			globalState.setGlobalState(2);
+			globalState.setAlarm(true);
+			globalState.setName(SoundSensor::_name);
 
-			/*
-				send to the server
-			*/
+			Serial.print(_name);
+			Serial.print("  ");
+			Serial.println(SoundSensor::getValue());
+			_state = _state -15;
 			return;
 		}
 	}

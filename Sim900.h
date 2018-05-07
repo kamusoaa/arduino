@@ -26,6 +26,7 @@ public:
 	String imei();
 
 	String celluarOperator();
+	String mobileNumber();
 	String moduleStatus();
 	String signalStrength();
 	String getCurrentTime();
@@ -39,7 +40,7 @@ public:
 	bool sendSMS(char* number, char* text);
 
 	void setConnection();
-	void sendHttpRequest(char*, int, int, int, int, int);
+	void sendHttpRequest(String data);
 	String readHttpRequest();
 
 	

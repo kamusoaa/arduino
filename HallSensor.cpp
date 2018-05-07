@@ -15,7 +15,7 @@ int HallSensor::getValue()
 	return _value;
 }
 
-void HallSensor::doInThread(GlobalState & global)
+void HallSensor::doInThread(GlobalState & global, ThreadController controller)
 {
 	_value = analogRead(_pin);
 	if (_value > 450) // for - in magnet
@@ -23,12 +23,17 @@ void HallSensor::doInThread(GlobalState & global)
 		_state++;
 		if (_state > 50)
 		{
-			global.setGlobalState(1);
+			global.setGlobalState(2);
+			global.setAlarm(true);
+			global.setName(HallSensor::_name);
 			_state = _state - 50;
 
 			Serial.print(_name);
 			Serial.print("  ");
 			Serial.println(_value);
+
+			controller.enabled = false;
+
 		}
 	}
 }

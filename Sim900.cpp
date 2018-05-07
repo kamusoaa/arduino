@@ -118,6 +118,26 @@ String GSMModem::celluarOperator()
 	return response;
 }
 
+String GSMModem::mobileNumber()
+{
+	String response;
+	Serial1.print("AT+CNUM");
+	Serial1.println();
+	unsigned long startTime = millis();
+
+	while (millis() - startTime < 1000)
+	{
+		if (Serial1.available())
+		{
+			char input = Serial1.read();
+			response += input;
+		}
+	}
+	response = response.substring(22, 34);
+	response.trim();
+	return response;
+}
+
 String GSMModem::moduleStatus()
 {
 	String response;
@@ -371,7 +391,7 @@ void GSMModem::setConnection()
 	while (Serial1.available()) Serial1.read();
 }
 
-void GSMModem::sendHttpRequest(char* alarm,int motion1, int motion2, int hall, int proximity, int sound)
+void GSMModem::sendHttpRequest(String data)
 {
 	Serial.println("meh");
 	bool start = false;
@@ -380,21 +400,7 @@ void GSMModem::sendHttpRequest(char* alarm,int motion1, int motion2, int hall, i
 	Serial1.print("AT+HTTPPARA=\"URL\",");
 	Serial1.print("\"");
 	Serial1.print("http://gsmserver.herokuapp.com/simple?");
-	Serial1.print("motion1=");
-	Serial1.print(motion1);
-	Serial1.print("&");
-	Serial1.print("motion2=");
-	Serial1.print(motion2);
-	Serial1.print("&");
-	Serial1.print("hall=");
-	Serial1.print(hall);
-	Serial1.print("&");
-	Serial1.print("proximity=");
-	Serial1.print(proximity);
-	Serial1.print("&");
-	Serial1.print("sound=");
-	Serial1.print(sound);
-	Serial1.print("\"");
+	Serial1.print(data);
 	Serial1.println();
 	delay(1000);
 	Serial1.println("AT+HTTPACTION=0");
@@ -417,6 +423,7 @@ String GSMModem::readHttpRequest()
 	while (Serial1.available())
 	{
 		char in = Serial1.read();
+		Serial.write(in);
 		if (in == '{')
 		{
 			start = true;
@@ -430,7 +437,7 @@ String GSMModem::readHttpRequest()
 			break;
 		}
 	}
-
+	while (Serial1.available()) Serial1.read();
 	Serial.println(jsonResponse.length());
 	Serial.println(jsonResponse);
 	Serial.println("===");

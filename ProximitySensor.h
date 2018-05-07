@@ -3,6 +3,7 @@
 #ifndef _PROXIMITYSENSOR_h
 #define _PROXIMITYSENSOR_h
 #include "GlobalState.h"
+#include "ThreadController.h"
 #if defined(ARDUINO) && ARDUINO >= 100
 	#include "arduino.h"
 #else
@@ -22,6 +23,6 @@ private:
 public:
 	ProximitySensor(String name, uint8_t pin);
 	int getValue();
-	void doInThread(GlobalState& state);
+	void doInThread(GlobalState& state, ThreadController controller);
 	void configure();
 };

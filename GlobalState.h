@@ -14,7 +14,8 @@ class GlobalState
 {
 private:
 	uint8_t _globalState;
-
+	bool _alarm;
+	String _sensor;
 public:
 	GlobalState();
 	void setGlobalState(uint8_t value);
@@ -22,6 +23,12 @@ public:
 	bool getState();
 	bool getCriticalState();
 	uint8_t getGlobalValue();
+
+	void setAlarm(bool value);
+	bool isAlarm();
+	void setName(String name);
+	String getName();
+	
 
 };
 
