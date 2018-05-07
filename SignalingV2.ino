@@ -54,36 +54,40 @@ void setup()
 	Serial.begin(9600);
 	Serial1.begin(19200);
 
-	piezo.configure();
-
 	motionSensor1.configure();
 	motionThread1.enabled = true;
 	motionThread1.onRun(doInMotionSensorThread1);
 	motionThread1.setInterval(1000);
+
 
 	motionSensor2.configure();
 	motionThread2.enabled = true;
 	motionThread2.onRun(doInMotionSensorThread2);
 	motionThread2.setInterval(1000);
 
+
 	soundSensor.configure();
 	soundThread.enabled = true;
 	soundThread.onRun(doInSoundSensorThread);
 	soundThread.setInterval(0);
+
 
 	proximity.configure();
 	proximityThread.enabled = true;
 	proximityThread.onRun(doInProximitySensorThread);
 	proximityThread.setInterval(1000);
 
+
 	hallSensor.configure();
 	hallThread.enabled = true;
 	hallThread.onRun(doInHallThread);
 	hallThread.setInterval(0);
 
+
 	postData.enabled = true;
 	postData.onRun(sendData);
 	postData.setInterval(60000);
+
 
 	controller.add(&motionThread1);
 	controller.add(&motionThread2);
@@ -91,10 +95,12 @@ void setup()
 	controller.add(&proximityThread);
 	controller.add(&hallThread);
 
+
 	modem.config();
 	modem.setConnection();
 	moduleIMEI = modem.imei();
 
+	piezo.configure();
 	piezo.quietBeep();
 	
 }
@@ -103,15 +109,23 @@ void loop()
 {
   /* add main program code here */
 
-	controller.run();
+	if (!state.isAlarm())
+	{
+		Serial.println("Work!");
+		controller.run();
+	}
+	else
+	{
+		Serial.println("no Work!");
+	}
+
+		
 
 	if (state.getCriticalState())
 		piezo.loudlyBeeping();
 
 	if (postData.shouldRun())
 		postData.run();
-
-	Serial.println(controller.shouldRun());
 
 }
 

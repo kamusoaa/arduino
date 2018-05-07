@@ -39,6 +39,8 @@ void SoundSensor::doInThread(GlobalState& globalState, ThreadController controll
 			Serial.print("  ");
 			Serial.println(SoundSensor::getValue());
 			_state = _state -15;
+
+			//controller.enabled = false;
 			return;
 		}
 	}

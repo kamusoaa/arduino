@@ -61,7 +61,7 @@ void MotionSensor::doInThread(GlobalState& globalState, ThreadController control
 			Serial.println(_value);
 			_state--;
 
-			controller.enabled = false;
+			//controller.enabled = false;
 		}
 	}
 }

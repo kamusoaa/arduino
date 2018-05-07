@@ -33,7 +33,7 @@ void ProximitySensor::doInThread(GlobalState& state, ThreadController controller
 			Serial.println(_value);
 			_state--;
 
-			controller.enabled = false;
+			//controller.enabled = false;
 		}
 	}
 }

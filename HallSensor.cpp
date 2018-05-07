@@ -32,7 +32,7 @@ void HallSensor::doInThread(GlobalState & global, ThreadController controller)
 			Serial.print("  ");
 			Serial.println(_value);
 
-			controller.enabled = false;
+			//controller.enabled = false;
 
 		}
 	}
