@@ -1,8 +1,8 @@
 
 /*
-Name:		SignalingV2.ino
-Created:	01.05.2018 12:35:33
-Author:	kozjava
+  Name:		SignalingV2.ino
+  Created:	01.05.2018 12:35:33
+  Author:	kozjava
 */
 
 
@@ -16,8 +16,8 @@ Author:	kozjava
 #include<Thread.h>
 #include<ThreadController.h>
 
-uint8_t piezoPins[2] = { 4,3};
-int freq[2] = { 700,900 };
+uint8_t piezoPins[2] = { 4, 3};
+int freq[2] = { 700, 900 };
 int piezoTime = 1000;
 char message[160];
 char phone[16];
@@ -52,80 +52,80 @@ void setup()
 {
   /* add setup code here */
 
-	Serial.begin(9600);
-	Serial1.begin(19200);
+  Serial.begin(9600);
+  Serial1.begin(19200);
 
-	piezo.configure();
-	piezo.quietBeep();
+  piezo.configure();
+  piezo.quietBeep();
 
-	motionSensor1.configure();
-	motionThread1.enabled = true;
-	motionThread1.onRun(doInMotionSensorThread1);
-	motionThread1.setInterval(1000);
-
-
-	motionSensor2.configure();
-	motionThread2.enabled = true;
-	motionThread2.onRun(doInMotionSensorThread2);
-	motionThread2.setInterval(1000);
+  motionSensor1.configure();
+  motionThread1.enabled = true;
+  motionThread1.onRun(doInMotionSensorThread1);
+  motionThread1.setInterval(1000);
 
 
-	soundSensor.configure();
-	soundThread.enabled = true;
-	soundThread.onRun(doInSoundSensorThread);
-	soundThread.setInterval(0);
+  motionSensor2.configure();
+  motionThread2.enabled = true;
+  motionThread2.onRun(doInMotionSensorThread2);
+  motionThread2.setInterval(1000);
 
 
-	proximity.configure();
-	proximityThread.enabled = true;
-	proximityThread.onRun(doInProximitySensorThread);
-	proximityThread.setInterval(1000);
+  soundSensor.configure();
+  soundThread.enabled = true;
+  soundThread.onRun(doInSoundSensorThread);
+  soundThread.setInterval(0);
 
 
-	hallSensor.configure();
-	hallThread.enabled = true;
-	hallThread.onRun(doInHallThread);
-	hallThread.setInterval(0);
+  proximity.configure();
+  proximityThread.enabled = true;
+  proximityThread.onRun(doInProximitySensorThread);
+  proximityThread.setInterval(1000);
 
 
-	postData.enabled = true;
-	postData.onRun(sendData);
-	postData.setInterval(30000);
-
-	commandParser.enabled = true;
-	commandParser.onRun(parseCommand);
-	commandParser.setInterval(12000);
+  hallSensor.configure();
+  hallThread.enabled = true;
+  hallThread.onRun(doInHallThread);
+  hallThread.setInterval(0);
 
 
-	controller.add(&motionThread1);
-	controller.add(&motionThread2);
-	controller.add(&soundThread);
-	controller.add(&proximityThread);
-	controller.add(&hallThread);
+  postData.enabled = true;
+  postData.onRun(sendData);
+  postData.setInterval(30000);
+
+  commandParser.enabled = true;
+  commandParser.onRun(parseCommand);
+  commandParser.setInterval(12000);
 
 
-	modem.config();
-	modem.setConnection();
-	moduleIMEI = modem.imei();
+  controller.add(&motionThread1);
+  controller.add(&motionThread2);
+  controller.add(&soundThread);
+  controller.add(&proximityThread);
+  controller.add(&hallThread);
 
 
-	
+  modem.config();
+  modem.setConnection();
+  moduleIMEI = modem.imei();
+
+
+
 }
 
 void loop()
 {
   /* add main program code here */
 
-	if (!state.isAlarm())
-		controller.run();
+  if (!state.isAlarm())
+    controller.run();
 
-	if (state.getCriticalState())
-		piezo.loudlyBeeping();
+  if (state.getCriticalState() && piezo.isShouldAlarm())
+    piezo.loudlyBeeping();
 
-	if (postData.shouldRun())
-		postData.run();
-	if (commandParser.shouldRun())
-		commandParser.run();
+  if (postData.shouldRun())
+    postData.run();
+  if (commandParser.shouldRun())
+    commandParser.run();
 
 }
 
