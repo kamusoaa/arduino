@@ -1,6 +1,6 @@
 bool _run = false;
 String _JSON;
-String commandResponse;
+String commandResponse = "0";
 
 constexpr unsigned int str2int(const char* str, int h = 0)
 {
@@ -14,7 +14,7 @@ void parseCommand()
   if (_run)
   {
     JsonObject& root = buffer.parseObject(_JSON);
-    String command = root["text"];
+    String command = root["cmd"];
     const char *cCommand = command.c_str();
     switch (str2int(cCommand))
     {
@@ -110,7 +110,7 @@ void turnOffTheSiren()
 
 void alwaysTurnOfTheSiren()
 {
-  piezo.isShouldAlarm(false);
+  state.setShouldAlarm(false);
 
 }
 
@@ -126,7 +126,7 @@ void stopMotion2()
 
 void stopSound()
 {
-  soundThread.enabled = !soundThread;
+  soundThread.enabled = !soundThread.enabled;
 }
 void stopProximity()
 {

@@ -4,8 +4,9 @@
 #define _SIM900_h
 #include "GPRS_Shield_Arduino.h"
 #include "ArduinoJson.h"
+  
 #if defined(ARDUINO) && ARDUINO >= 100
-	#include "arduino.h"
+  #include "Arduino.h"
 #else
 	#include "WProgram.h"
 #endif
@@ -40,7 +41,7 @@ public:
 	bool sendSMS(char* number, char* text);
 
 	void setConnection();
-	void sendHttpRequest(String data);
+	void sendHttpRequest(String url, String data);
 	String readHttpRequest();
 
 	

@@ -5,7 +5,6 @@
   Author:	kozjava
 */
 
-
 #include "Sim900.h"
 #include "HallSensor.h"
 #include "ProximitySensor.h"
@@ -23,6 +22,7 @@ char message[160];
 char phone[16];
 char datetime[24];
 String moduleIMEI;
+String mobileNum;
 
 GlobalState state = GlobalState();
 Piezo piezo = Piezo(piezoPins, freq, piezoTime);
@@ -108,6 +108,16 @@ void setup()
   modem.setConnection();
   moduleIMEI = modem.imei();
 
+  mobileNum = modem.mobileNumber();
+
+  String reg = "imei=";
+  reg += moduleIMEI;
+  reg += "&phone=";
+  reg += mobileNum;
+
+  Serial.println(reg);
+  modem.sendHttpRequest("http://gsmserver.herokuapp.com/reg/modemreg?",reg);
+
 
 
 }
@@ -119,7 +129,7 @@ void loop()
   if (!state.isAlarm())
     controller.run();
 
-  if (state.getCriticalState() && piezo.isShouldAlarm())
+  if (state.getCriticalState() && state.isShouldAlarm())
     piezo.loudlyBeeping();
 
   if (postData.shouldRun())

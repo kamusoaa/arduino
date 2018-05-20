@@ -391,7 +391,7 @@ void GSMModem::setConnection()
 	while (Serial1.available()) Serial1.read();
 }
 
-void GSMModem::sendHttpRequest(String data)
+void GSMModem::sendHttpRequest(String url,String data)
 {
 	Serial.println("meh");
 	Serial.println(data);
@@ -400,7 +400,7 @@ void GSMModem::sendHttpRequest(String data)
 	String jsonResponse;
 	Serial1.print("AT+HTTPPARA=\"URL\",");
 	Serial1.print("\"");
-	Serial1.print("http://gsmserver.herokuapp.com/simple?");
+	Serial1.print(url);
 	Serial1.print(data);
 	Serial1.print("\"");
 	Serial1.println();

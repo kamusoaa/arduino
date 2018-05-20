@@ -29,7 +29,7 @@ void SoundSensor::doInThread(GlobalState& globalState, ThreadController controll
 	{
 		digitalWrite(13, HIGH);
 		_state++;
-		if (_soundValue > 15)
+		if (_state > 15)
 		{
 			globalState.setGlobalState(2);
 			globalState.setAlarm(true);

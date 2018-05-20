@@ -62,11 +62,11 @@ String GlobalState::getName()
 	return _sensor;
 }
 
-bool isShouldAlarm()
+bool GlobalState::isShouldAlarm()
 {
   return _shouldAlarm;  
 }
-void setShouldAlarm(bool value)
+void GlobalState::setShouldAlarm(bool value)
 {
     _shouldAlarm = value;
 }
