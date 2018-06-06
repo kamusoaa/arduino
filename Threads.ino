@@ -35,6 +35,7 @@ void sendData()
 		data += "&sensor=";
 		data += state.getName();
 	}
+	/*
 	data += "&motion1=";
 	data += motionSensor1.getValue();
 	data += "&motion2=";
@@ -45,6 +46,7 @@ void sendData()
 	data += proximity.getValue();
 	data += "&sound=";
 	data += soundSensor.getValue();
+	*/
   data += "&cmd=";
   data += commandResponse;
 

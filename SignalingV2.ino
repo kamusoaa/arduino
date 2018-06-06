@@ -41,7 +41,7 @@ GPRS _gprs(Serial1);
 StaticJsonBuffer<200> buffer;
 
 MotionSensor motionSensor1("Motion1", 12);
-MotionSensor motionSensor2("Motion2", 11);
+MotionSensor motionSensor2("Motion2", 11); // not working
 SoundSensor soundSensor("Sound", A0);
 ProximitySensor proximity("Proximity", 7);
 HallSensor hallSensor("HallSensor", A1);
@@ -59,25 +59,25 @@ void setup()
   piezo.quietBeep();
 
   motionSensor1.configure();
-  motionThread1.enabled = true;
+  motionThread1.enabled = false; // not working
   motionThread1.onRun(doInMotionSensorThread1);
   motionThread1.setInterval(1000);
 
 
   motionSensor2.configure();
-  motionThread2.enabled = true;
+  motionThread2.enabled = false; // not on
   motionThread2.onRun(doInMotionSensorThread2);
   motionThread2.setInterval(1000);
 
 
   soundSensor.configure();
-  soundThread.enabled = true;
+  soundThread.enabled = false;
   soundThread.onRun(doInSoundSensorThread);
   soundThread.setInterval(0);
 
 
   proximity.configure();
-  proximityThread.enabled = true;
+  proximityThread.enabled = false;
   proximityThread.onRun(doInProximitySensorThread);
   proximityThread.setInterval(1000);
 
@@ -90,15 +90,11 @@ void setup()
 
   postData.enabled = true;
   postData.onRun(sendData);
-  postData.setInterval(30000);
+  postData.setInterval(15000);
 
   commandParser.enabled = true;
   commandParser.onRun(parseCommand);
-  commandParser.setInterval(12000);
-
-
-  controller.add(&motionThread1);
-  controller.add(&motionThread2);
+  commandParser.setInterval(6000);
   controller.add(&soundThread);
   controller.add(&proximityThread);
   controller.add(&hallThread);
@@ -115,8 +111,7 @@ void setup()
   reg += "&phone=";
   reg += mobileNum;
 
-  Serial.println(reg);
-  modem.sendHttpRequest("http://gsmserver.herokuapp.com/reg/modemreg?",reg);
+  modem.sendHttpRequest("http://gsmserver.herokuapp.com/reg/modemreg?", reg);
 
 
 

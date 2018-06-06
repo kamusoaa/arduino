@@ -393,9 +393,8 @@ void GSMModem::setConnection()
 
 void GSMModem::sendHttpRequest(String url,String data)
 {
-	Serial.println("meh");
+
 	Serial.println(data);
-	bool start = false;
 
 	String jsonResponse;
 	Serial1.print("AT+HTTPPARA=\"URL\",");
@@ -404,9 +403,9 @@ void GSMModem::sendHttpRequest(String url,String data)
 	Serial1.print(data);
 	Serial1.print("\"");
 	Serial1.println();
-	delay(1000);
+	delay(90);
 	Serial1.println("AT+HTTPACTION=0");
-	delay(3000);
+	delay(2500);
 
 
 }
@@ -414,13 +413,13 @@ void GSMModem::sendHttpRequest(String url,String data)
 String GSMModem::readHttpRequest()
 {
 
-	Serial.println("meh2");
+	Serial.println("Response :");
 	bool start = false;
 
 	String jsonResponse;
 	while (Serial1.available()) Serial1.read();
-	Serial1.println("AT+HTTPREAD=0,170");
-	delay(2000);
+	Serial1.println("AT+HTTPREAD=0,16");
+	delay(3000);
 		
 	while (Serial1.available())
 	{
@@ -439,8 +438,6 @@ String GSMModem::readHttpRequest()
 			break;
 		}
 	}
-	while (Serial1.available()) Serial1.read();
-	Serial.println(jsonResponse.length());
 	Serial.println(jsonResponse);
 	Serial.println("===");
 

@@ -13,9 +13,11 @@ void parseCommand()
   Serial.println("Parser");
   if (_run)
   {
+    Serial.println(_run);
     JsonObject& root = buffer.parseObject(_JSON);
     String command = root["cmd"];
     const char *cCommand = command.c_str();
+    commandResponse = "0";
     switch (str2int(cCommand))
     {
       case str2int("ON"):
@@ -98,12 +100,18 @@ void turnOffTheSiren()
   if (state.getCriticalState())
   {
     state.reserGlobalState();
+    state.setAlarm(false);
+    state.setName("");
     noTone(4);
+
+    commandResponse = "OFF";
     return;
   }
   else
   {
     noTone(4);
+    commandResponse = "OFF";
+
   }
 }
 
@@ -111,6 +119,7 @@ void turnOffTheSiren()
 void alwaysTurnOfTheSiren()
 {
   state.setShouldAlarm(false);
+  
 
 }
 
